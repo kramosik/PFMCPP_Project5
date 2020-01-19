@@ -1,5 +1,7 @@
 /*
- Chapter 3 Part 1 - Continuation of previous Task
+Project 5: Part 2 / 4
+ video: Chapter 3 Part 1
+ 
  The 'this' keyword.
  The purpose of this task is to demonstrate the difference between using member
 variables in member functions, vs. using member variables in free functions.
