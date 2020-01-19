@@ -1,7 +1,5 @@
 /*
-Project 5: Part 2 / 4
- video: Chapter 3 Part 1
- 
+ Chapter 3 Part 1 - Continuation of previous Task
  The 'this' keyword.
  The purpose of this task is to demonstrate the difference between using member
 variables in member functions, vs. using member variables in free functions.
@@ -47,24 +45,15 @@ namespace example
 {
 struct MyFoo
 {
-    MyFoo()
-    {
-        std::cout << "creating MyFoo" << std::endl;
-    }
-    ~MyFoo()
-    {
-        std::cout << "destroying MyFoo" << std::endl;
-    }
+    MyFoo() { std::cout << "creating MyFoo" << std::endl; }
+    ~MyFoo() { std::cout << "destroying MyFoo" << std::endl; }
     void memberFunc()
     {
         std::cout << "MyFoo returnValue(): " << this->returnValue()
                   << " and MyFoo memberVariable: " << this->memberVariable
                   << std::endl;
     } // 2a)
-    int returnValue()
-    {
-        return 3;
-    }
+    int returnValue() { return 3; }
     float memberVariable = 3.14f;
 };
 int main()
@@ -84,25 +73,18 @@ int main()
 #include <string>
 struct Page
 {
-    Page() : chapter(""), content("")
+    Page() : chapter(""), content("") {}
+    Page(int mPageNumber, std::string mChapter, std::string mContent)
+        : pageNumber(mPageNumber), chapter(mChapter), content(mContent)
     {
     }
-    Page(int pageNumber, std::string chapter, std::string content)
-        : pageNumber(pageNumber), chapter(chapter), content(content)
-    {
-    }
-    ~Page()
-    {
-    }
+    ~Page() {}
 
     std::string getText()
     {
         return chapter + '\n' + content + '\n' + getPageNumber() + '\n';
     }
-    std::string getPageNumber()
-    {
-        return std::to_string(pageNumber);
-    }
+    std::string getPageNumber() { return std::to_string(pageNumber); }
 
     void memberFunc()
     {
@@ -120,24 +102,17 @@ struct Page
  */
 struct Lamp
 {
-    Lamp() : color("white")
+    Lamp() : color("white") {}
+    Lamp(float mBrightness, float mBattery, std::string mColor)
+        : brightness(mBrightness), battery(mBattery), color(mColor)
     {
     }
-    Lamp(float brightness, float battery, std::string color)
-        : brightness(brightness), battery(battery), color(color)
-    {
-    }
-    ~Lamp()
-    {
-    }
+    ~Lamp() {}
 
-    std::string getLight()
-    {
-        return color + ": " + std::to_string(brightness);
-    }
+    std::string getLight() { return color + ": " + std::to_string(brightness); }
     void toggle()
     {
-        if (brightness != 0)
+        if (brightness <= static_cast<float>(1e-7))
         {
             brightness = 100;
         }
@@ -164,16 +139,12 @@ struct Lamp
 #include <sstream>
 struct Metronome
 {
-    Metronome()
+    Metronome() {}
+    Metronome(float mTempo, int mBeatsPerMeasure, bool mStarted)
+        : tempo(mTempo), beatsPerMeasure(mBeatsPerMeasure), started(mStarted)
     {
     }
-    Metronome(float tempo, int beatsPerMeasure, bool started)
-        : tempo(tempo), beatsPerMeasure(beatsPerMeasure), started(started)
-    {
-    }
-    ~Metronome()
-    {
-    }
+    ~Metronome() {}
 
     std::string getStatus()
     {
@@ -198,10 +169,7 @@ struct Metronome
         }
         return os.str();
     }
-    void toggle()
-    {
-        started = !started;
-    }
+    void toggle() { started = !started; }
 
     void memberFunc()
     {
@@ -219,21 +187,14 @@ struct Metronome
  */
 struct Screen
 {
-    Screen() : manufacturer("")
+    Screen() : manufacturer("") {}
+    Screen(int mHeight, int mWidth, std::string mManufacturer)
+        : height(mHeight), width(mWidth), manufacturer(mManufacturer)
     {
     }
-    Screen(int height, int width, std::string manufacturer)
-        : height(height), width(width), manufacturer(manufacturer)
-    {
-    }
-    ~Screen()
-    {
-    }
+    ~Screen() {}
 
-    int getNumofPixels()
-    {
-        return height * width;
-    }
+    int getNumofPixels() { return height * width; }
     bool coordInBound(int x, int y)
     {
         return (x > 0 && x < width) && (y > 0 && y < height);
@@ -255,25 +216,15 @@ struct Screen
  */
 struct File
 {
-    File() : filename(""), directory("")
+    File() : filename(""), directory("") {}
+    File(std::string mFilename, std::string mDirectory, long mSizeInBytes)
+        : filename(mFilename), directory(mDirectory), sizeInBytes(mSizeInBytes)
     {
     }
-    File(std::string filename, std::string directory, long sizeInBytes)
-        : filename(filename), directory(directory), sizeInBytes(sizeInBytes)
-    {
-    }
-    ~File()
-    {
-    }
+    ~File() {}
 
-    std::string getPath()
-    {
-        return directory + "/" + filename;
-    }
-    double sizeInKB()
-    {
-        return sizeInBytes / 1024.0;
-    }
+    std::string getPath() { return directory + "/" + filename; }
+    double sizeInKB() { return sizeInBytes / 1024.0; }
 
     void memberFunc()
     {
