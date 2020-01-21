@@ -1,40 +1,36 @@
 /*
  Project 5: Part 3 / 4
- video: Chapter 3 Part 4: 
+ video: Chapter 3 Part 4:
 
 Create a branch named Part3
 
  the 'new' keyword
 
  1) add #include "LeakedObjectDetector.h" to main
- 
+
  3) Add 'JUCE_LEAK_DETECTOR(OwnerClass)' at the end of your UDTs.
- 
+
  4) write the name of your class where it says "OwnerClass"
- 
+
  5) write wrapper classes for each type similar to how it was shown in the video
- 
- 7) update main to use your wrapper classes, which have your UDTs as pointer member variables.
- 
- 8) After you finish, click the [run] button.  Clear up any errors or warnings as best you can.
- 
- Commit your changes by clicking on the Source Control panel on the left, entering a message, and click [Commit and push].
- 
+
+ 7) update main to use your wrapper classes, which have your UDTs as pointer
+member variables.
+
+ 8) After you finish, click the [run] button.  Clear up any errors or warnings
+as best you can.
+
+ Commit your changes by clicking on the Source Control panel on the left,
+entering a message, and click [Commit and push].
+
  Send me the the link to your repl.it in a DM on Slack
 
  Wait for my code review.
- 
+
  see here for an example: https://repl.it/@matkatmusic/ch3p04example
  */
-
-
-
-
-
-
-
-
-
+#include <cassert>
+#include "LeakedObjectDetector.h"
 #include <iostream>
 
 /*
@@ -65,6 +61,16 @@ struct Page
     int pageNumber = 0;
     std::string chapter;
     std::string content;
+
+    JUCE_LEAK_DETECTOR(Page)
+};
+
+struct PageWrapper
+{
+    PageWrapper(Page* ptr) : ptrToPage(ptr) {}
+    ~PageWrapper() { delete ptrToPage; }
+
+    Page* ptrToPage = nullptr;
 };
 
 /*
@@ -82,6 +88,7 @@ struct Lamp
     std::string getLight() { return color + ": " + std::to_string(brightness); }
     void toggle()
     {
+        // brightness must be positive
         if (brightness <= static_cast<float>(1e-7))
         {
             brightness = 100;
@@ -101,6 +108,16 @@ struct Lamp
     float brightness = 0;
     float battery = 100;
     std::string color;
+
+    JUCE_LEAK_DETECTOR(Lamp)
+};
+
+struct LampWrapper
+{
+    LampWrapper(Lamp* ptr) : ptrToLamp(ptr) {}
+    ~LampWrapper() { delete ptrToLamp; }
+
+    Lamp* ptrToLamp = nullptr;
 };
 
 /*
@@ -150,6 +167,16 @@ struct Metronome
     float tempo = 120;
     int beatsPerMeasure = 4;
     bool started = false;
+
+    JUCE_LEAK_DETECTOR(Metronome)
+};
+
+struct MetronomeWrapper
+{
+    MetronomeWrapper(Metronome* ptr) : ptrToMetronome(ptr) {}
+    ~MetronomeWrapper() { delete ptrToMetronome; }
+
+    Metronome* ptrToMetronome = nullptr;
 };
 
 /*
@@ -179,6 +206,16 @@ struct Screen
     int height = 0;
     int width = 0;
     std::string manufacturer;
+
+    JUCE_LEAK_DETECTOR(Screen)
+};
+
+struct ScreenWrapper
+{
+    ScreenWrapper(Screen* ptr) : ptrToScreen(ptr) {}
+    ~ScreenWrapper() { delete ptrToScreen; }
+
+    Screen* ptrToScreen = nullptr;
 };
 
 /*
@@ -205,40 +242,54 @@ struct File
     std::string filename;
     std::string directory;
     double sizeInBytes = 0;
+
+    JUCE_LEAK_DETECTOR(File)
+};
+
+struct FileWrapper
+{
+    FileWrapper(File* ptr) : ptrToFile(ptr) {}
+    ~FileWrapper() { delete ptrToFile; }
+
+    File* ptrToFile = nullptr;
 };
 
 #include <iostream>
 int main()
 {
     // UDT 1:
-    Page page {1, "Chapter 1", "Some random text"};
-    std::cout << "page getText(): " << page.getText()
-              << "page pageNumber: " << page.pageNumber << '\n';
-    page.memberFunc();
+    PageWrapper page {new Page(1, "Chapter 1", "Some random text")};
+    std::cout << "page getText(): " << page.ptrToPage->getText()
+              << "page pageNumber: " << page.ptrToPage->pageNumber << '\n';
+    page.ptrToPage->memberFunc();
 
     // UDT 2:
-    Lamp lamp {20, 50, "red"};
-    std::cout << "lamp getLight(): " << lamp.getLight()
-              << "\nlamp battery: " << lamp.battery << '\n';
-    lamp.memberFunc();
+    LampWrapper lamp {new Lamp(20, 50, "red")};
+    std::cout << "lamp getLight(): " << lamp.ptrToLamp->getLight()
+              << "\nlamp battery: " << lamp.ptrToLamp->battery << '\n';
+    lamp.ptrToLamp->memberFunc();
 
     // UDT 3:
-    Metronome metronome {120, 4, true};
-    std::cout << "metronome getStatus(): " << metronome.getStatus()
-              << "\nmetronome tempo: " << metronome.tempo << '\n';
-    metronome.memberFunc();
+    MetronomeWrapper metronome {new Metronome(120, 4, true)};
+    std::cout << "metronome getStatus(): "
+              << metronome.ptrToMetronome->getStatus()
+              << "\nmetronome tempo: " << metronome.ptrToMetronome->tempo
+              << '\n';
+    metronome.ptrToMetronome->memberFunc();
 
     // UDT 4:
-    Screen screen {300, 1000, "ASUS"};
-    std::cout << "screen coordInBound(): " << screen.coordInBound(29, 309)
-              << "\nscreen manufacturer: " << screen.manufacturer << '\n';
-    screen.memberFunc();
+    ScreenWrapper screen {new Screen(300, 1000, "ASUS")};
+    std::cout << "screen coordInBound(): "
+              << screen.ptrToScreen->coordInBound(29, 309)
+              << "\nscreen manufacturer: " << screen.ptrToScreen->manufacturer
+              << '\n';
+    screen.ptrToScreen->memberFunc();
 
     // UDT 5:
-    File file {"main.cpp", "/home", 10000};
-    std::cout << "file getPath(): " << file.getPath()
-              << "\nfile sizeInBytes: " << file.sizeInBytes << '\n';
-    file.memberFunc();
+    FileWrapper file {new File("main.cpp", "/home", 10000)};
+    std::cout << "file getPath(): " << file.ptrToFile->getPath()
+              << "\nfile sizeInBytes: " << file.ptrToFile->sizeInBytes << '\n';
+    file.ptrToFile->memberFunc();
 
     return 0;
 }
