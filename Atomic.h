@@ -1,3 +1,5 @@
+#pragma once
+
 #include <atomic>
 #include <iostream>
 
@@ -29,13 +31,13 @@ namespace juce
         {
             return value.compare_exchange_strong (valueToCompare, newValue);
         }
-        
+
         Atomic<Type>& operator= (const Atomic& other) noexcept
         {
             value = other.value.load();
             return *this;
         }
-        
+
         Atomic<Type>& operator= (Type newValue) noexcept
         {
             value = newValue;
