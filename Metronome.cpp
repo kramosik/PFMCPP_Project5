@@ -4,9 +4,7 @@
 
 Metronome::Metronome() {}
 Metronome::Metronome(float mTempo, int mBeatsPerMeasure, bool mStarted)
-    : tempo(mTempo), beatsPerMeasure(mBeatsPerMeasure), started(mStarted)
-{
-}
+    : tempo(mTempo), beatsPerMeasure(mBeatsPerMeasure), started(mStarted) {}
 Metronome::~Metronome() {}
 
 std::string Metronome::getStatus()

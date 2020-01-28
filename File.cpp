@@ -4,9 +4,7 @@
 File::File() : filename(""), directory("") {}
 File::File(const std::string& mFilename, const std::string& mDirectory,
            long mSizeInBytes)
-    : filename(mFilename), directory(mDirectory), sizeInBytes(mSizeInBytes)
-{
-}
+    : filename(mFilename), directory(mDirectory), sizeInBytes(mSizeInBytes) {}
 File::~File() {}
 
 std::string File::getPath() { return directory + "/" + filename; }

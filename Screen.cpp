@@ -2,11 +2,8 @@
 #include <iostream>
 
 Screen::Screen() : manufacturer("") {}
-
 Screen::Screen(int mHeight, int mWidth, const std::string& mManufacturer)
-    : height(mHeight), width(mWidth), manufacturer(mManufacturer)
-{
-}
+    : height(mHeight), width(mWidth), manufacturer(mManufacturer) {}
 Screen::~Screen() {}
 
 int Screen::getNumofPixels() { return height * width; }

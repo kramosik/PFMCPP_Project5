@@ -4,10 +4,7 @@
 Page::Page() : chapter(""), content("") {}
 Page::Page(int mPageNumber, const std::string& mChapter,
            const std::string& mContent)
-    : pageNumber(mPageNumber), chapter(mChapter), content(mContent)
-{
-}
-
+    : pageNumber(mPageNumber), chapter(mChapter), content(mContent) {}
 Page::~Page() {}
 
 std::string Page::getText()

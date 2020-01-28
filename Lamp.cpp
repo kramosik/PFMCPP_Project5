@@ -3,9 +3,7 @@
 
 Lamp::Lamp() : color("white") {}
 Lamp::Lamp(float mBrightness, float mBattery, const std::string& mColor)
-    : brightness(mBrightness), battery(mBattery), color(mColor)
-{
-}
+    : brightness(mBrightness), battery(mBattery), color(mColor) {}
 Lamp::~Lamp() {}
 
 std::string Lamp::getLight()
