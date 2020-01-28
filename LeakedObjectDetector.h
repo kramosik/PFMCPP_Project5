@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Atomic.h"
 
 namespace juce
@@ -9,7 +11,7 @@ namespace juce
         //==============================================================================
         LeakedObjectDetector() noexcept                                 { ++(getCounter().numObjects); }
         LeakedObjectDetector (const LeakedObjectDetector&) noexcept     { ++(getCounter().numObjects); }
-        
+
         ~LeakedObjectDetector()
         {
             if (--(getCounter().numObjects) < 0)
@@ -18,14 +20,14 @@ namespace juce
                 assert(false);
             }
         }
-        
+
     private:
         //==============================================================================
         class LeakCounter
         {
         public:
             LeakCounter() = default;
-            
+
             ~LeakCounter()
             {
                 if (numObjects.value > 0)
@@ -34,15 +36,15 @@ namespace juce
                     assert(false);
                 }
             }
-            
+
             Atomic<int> numObjects;
         };
-        
+
         static const char* getLeakedObjectClassName()
         {
             return OwnerClass::getLeakedObjectClassName();
         }
-        
+
         static LeakCounter& getCounter() noexcept
         {
             static LeakCounter counter;
